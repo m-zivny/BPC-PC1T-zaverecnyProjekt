@@ -1,7 +1,4 @@
 ﻿#include "main.h"
-
-
-
 /*
 13) Hra had
 Vytvořte aplikaci odpovídající hře had známé z mobilních telefonů NOKIA. Hru bude možné ovládat
@@ -16,18 +13,55 @@ souboru.
 Bonusový úkol: Implementujte možnost nahrání překážek do hracího pole z textového souboru.
 */
 
-int startingPosX = 10;
-int startingPosY = 10;
+int startingPosX = 5;
+int startingPosY = 5;
+int appleX = 0;
+int appleY = 0;
 bool gameover = false;
+
 
 
 int ch;
 char had = 'O';
+char apple = 'X';
 enum Direction direction = RIGHT;
 struct bodyPart hlava;
 struct bodyPart* last = &hlava;
+int b = 1;
+
+void createPart() {
 
 
+	struct bodyPart* newPart;
+
+	newPart = (struct bodyPart*)malloc(sizeof(struct bodyPart));
+
+	last->next = newPart;
+
+	switch (direction) {
+	case UP:
+		newPart->posY = last->posY + 1;
+		newPart->posX = last->posX;
+		break;
+	case DOWN:
+		newPart->posY = last->posY - 1;
+		newPart->posX = last->posX;
+		break;
+	case LEFT:
+		newPart->posY = last->posY;
+		newPart->posX = last->posX + 1;
+		break;
+	case RIGHT:
+		newPart->posY = last->posY;
+		newPart->posX = last->posX - 1;
+		break;
+	}
+
+	newPart->next = NULL;
+
+	last = newPart;
+
+}
 void getDir() {
 
 	if (kbhit()) {
@@ -82,7 +116,10 @@ void getPos() {
 		act->posX++;
 		break;
 	}
-
+	if (hlava.posX == appleX && hlava.posY == appleY) {
+		createPart();
+		b = 1;
+	}
 	act = act->next;
 	while (act) {
 
@@ -175,6 +212,8 @@ void printField() {
 	bodyPart* act;
 	act = &hlava;
 
+	pole[appleY][appleX] = apple;
+
 	while (act) {
 		pole[act->posY][act->posX] = had;
 		act = act->next;
@@ -189,40 +228,10 @@ void printField() {
 		}
 		printf("\n");
 	}
-}
-void createPart() {
 
 	
-	struct bodyPart* newPart;
-
-	newPart = (struct bodyPart*)malloc(sizeof(struct bodyPart));
-
-	last->next = newPart;
-
-	switch (direction) {
-	case UP:
-		newPart->posY = last->posY + 1;
-		newPart->posX = last->posX;
-		break;
-	case DOWN:
-		newPart->posY = last->posY - 1;
-		newPart->posX = last->posX;
-		break;
-	case LEFT:
-		newPart->posY = last->posY;
-		newPart->posX = last->posX + 1;
-		break;
-	case RIGHT:
-		newPart->posY = last->posY;
-		newPart->posX = last->posX - 1;
-		break;
-	}
-
-	newPart->next = NULL;
-
-	last = newPart;
-
 }
+
 void fillGameField() {
 	for (int x = 0; x < RADKY; x++) {
 
@@ -253,13 +262,24 @@ void fillGameField() {
 	}
 }
 
+void generateApple(){
+
+	appleX = rand() % SLOUPCE -1;
+	appleY = rand() % RADKY -1;
+
+	while (appleX == 0 || appleY == 0) {
+		appleX = rand() % SLOUPCE - 1;
+		appleY = rand() % RADKY - 1;
+	}
+}
+
 int main() {
 	
-	
+
+	srand(time(NULL));
 	hlava.posX = 10;
 	hlava.posY = 10;
-
-	createPart();
+	generateApple();
 	createPart();
 	createPart();
 	
@@ -268,8 +288,14 @@ int main() {
 
 		system("cls");
 		fillGameField();
+
+		if (b) {
+			generateApple();
+			b = 0;
+		}
+
 		getDir();
-		getPos();
+		getPos();		
 		if (gameover) {
 			break;
 		}
