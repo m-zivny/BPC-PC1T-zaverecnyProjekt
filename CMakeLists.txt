@@ -12,7 +12,7 @@ endif()
 project ("snake")
 
 # Přidejte zdrojový kód ke spustitelnému souboru tohoto projektu.
-add_executable (BPC-PC1T-zaverecnyProjektd "main.cpp"  "knihovny/snakeLogic.h" "knihovny/snakeLogic.cpp" "knihovny/main.h")
+add_executable (BPC-PC1T-zaverecnyProjektd "main.cpp"    "main.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET BPC-PC1T-zaverecnyProjektd PROPERTY CXX_STANDARD 20)

@@ -1,5 +1,5 @@
-﻿#include "knihovny/main.h"
-#include "knihovny/snakeLogic.h"
+﻿#include "main.h"
+
 
 
 /*
