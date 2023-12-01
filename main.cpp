@@ -23,7 +23,6 @@ int ch;
 char had = 'O';
 enum Direction direction = RIGHT;
 struct bodyPart hlava;
-
 struct bodyPart* last = &hlava;
 
 
@@ -60,31 +59,109 @@ void getDir() {
 		
 }
 void getPos() {
+
 	system("cls");
-	//pole[hadPosY][hadPosX] = ' ';
+
+	bodyPart* act = &hlava;
+	bodyPart* _tempLast;
+	enum Direction tempDir;
+
 	switch (direction) {
 	case UP:
-
-//		hadPosY--;
+		act->posY--;
 		break;
-
 	case DOWN:
-	//	hadPosY++;
+		act->posY++;
 		break;
-
 	case LEFT:
-		//hadPosX--;
+		act->posX--;
 		break;
 	case RIGHT:
-		//hadPosX++;
-		break;
-	default:
+		act->posX++;
 		break;
 	}
 
-//	pole[hadPosY][hadPosX] = had;
+	_tempLast = act;
+	act = act->next;
+
+	tempDir = direction;
+
+	while (act) {
+
+		switch (tempDir){
+
+		case UP:
+			if (act->posX == _tempLast->posX) {
+				act->posY--;
+			}
+			else if(act->posX < _tempLast->posX) {
+				act->posX++;
+				tempDir = RIGHT;
+			}
+			else {
+				act->posX--;				
+				tempDir = LEFT;
+			}
+			
+			break;
+
+		case DOWN:
+			if (act->posX == _tempLast->posX) {
+				act->posY++;
+			}
+			else if (act->posX < _tempLast->posX) {
+				act->posX++;
+				tempDir = RIGHT;
+			}
+			else {
+				act->posX--;	
+				tempDir = LEFT;
+			}
+			break;
+
+		case LEFT:
+			if (act->posY == _tempLast->posY) {
+				act->posX--;
+			}
+			else if (act->posY < _tempLast->posY) {
+				act->posY++;
+				tempDir = DOWN;
+			}
+			else {
+				act->posY--;
+				tempDir = UP;
+			}
+			break;
+
+		case RIGHT:
+			if (act->posY == _tempLast->posY) {
+				act->posX++;
+			}
+			else if (act->posY < _tempLast->posY) {
+				act->posY++;
+				tempDir = DOWN;
+			}
+			else {
+				act->posY--;
+				tempDir = UP;
+			}
+			break;
+
+		}
+		_tempLast = act;
+		act = act->next;
+	}
 }
-void tiskPole() {
+void printField() {
+
+	bodyPart* act;
+	act = &hlava;
+
+	while (act) {
+		pole[act->posY][act->posX] = had;
+		act = act->next;
+	}
+
 	for (int x = 0; x < RADKY; x++) {
 
 		for (int y = 0; y < SLOUPCE; y++) {
@@ -95,7 +172,6 @@ void tiskPole() {
 		printf("\n");
 	}
 }
-
 void createPart() {
 
 	
@@ -129,9 +205,7 @@ void createPart() {
 	last = newPart;
 
 }
-
-
-void nasyceniPole() {
+void fillGameField() {
 	for (int x = 0; x < RADKY; x++) {
 
 		for (int y = 0; y < SLOUPCE; y++) {
@@ -160,35 +234,29 @@ void nasyceniPole() {
 		}
 	}
 }
+
 int main() {
+	
 	
 	hlava.posX = 10;
 	hlava.posY = 10;
-	nasyceniPole();
 
 	createPart();
 	createPart();
 	createPart();
-
-
-	tiskPole();
-	Sleep(150);
-
-	/*
-	nasyceniPole();
-//	pole[hadPosX][hadPosY] = had;
-	tiskPole();
-	Sleep(1000);
-	cas = time(NULL);
-	timestamp = cas;
+	
 
 	while (true) {
 
-			getDir();
-			getPos();
-			tiskPole();
-			Sleep(150);
-		}
-		*/
+		
+		fillGameField();
+		getDir();
+		getPos();
+		printField();
+		Sleep(500);
+
+	}
+	
+
 	}
 	
