@@ -10,7 +10,7 @@ Základní parametry programu:
 4. Hrany konzole budou pro hada neprůchozí.
 5. Hra bude obsahovat statistiky nejlepších 10 hráčů, které budou uloženy v externím textovém
 souboru.
-Bonusový úkol: Implementujte možnost nahrání překážek do hracího pole z textového souboru.
+
 */
 
 int startingPosX = 5;
@@ -328,7 +328,35 @@ int main() {
 	}
 	printf("GAMEOVER!\n\n\n");
 	printf("Vase skore bylo: %d\n\n\n", score);
+/*
+	const char* filename = "C:\\Users\\marti\\Documents\\!ŠKOLA\\BPC-PC1T-zaverecnyProjekt\\readme.txt";
 
-	
+	FILE* fp = fopen(filename, "r");
+
+	if (fp == NULL)
+	{
+		printf("Error: could not open file %s", filename);
+		return 1;
+	}
+
+	// read one character at a time and
+	// display it to the output
+	char ch;
+	ch = fgetc(fp);
+
+	while (ch != EOF) {
+		if (ch != ';') {
+			putchar(ch);
+		}
+	ch = fgetc(fp);
+	}
+		
+
+	// close the file
+	fclose(fp);
+
+	return 0;
+
+	*/
 	}
 	
