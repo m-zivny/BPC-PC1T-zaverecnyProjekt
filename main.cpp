@@ -27,7 +27,8 @@ char apple = 'X';
 enum Direction direction = RIGHT;
 struct bodyPart hlava;
 struct bodyPart* last = &hlava;
-int b = 1;
+int b = 0;
+int score = 0;
 
 void createPart() {
 
@@ -227,9 +228,11 @@ void printField() {
 
 		}
 		printf("\n");
+		
+
 	}
 
-	
+	printf("SCORE: %d", score);
 }
 
 void fillGameField() {
@@ -261,20 +264,39 @@ void fillGameField() {
 		}
 	}
 }
-
+bool stuckApple() {
+	bodyPart* act;
+	act = &hlava;
+	while (act) {
+		if (act->posX == appleX && act->posY == appleY) {
+			return true;
+		}
+		act = act->next;
+	}
+	return false;
+}
 void generateApple(){
 
 	appleX = rand() % SLOUPCE -1;
 	appleY = rand() % RADKY -1;
 
-	while (appleX == 0 || appleY == 0) {
-		appleX = rand() % SLOUPCE - 1;
-		appleY = rand() % RADKY - 1;
+	while (appleX <1 || appleX >= SLOUPCE-1 || appleY <1 || appleY >= RADKY-1 || stuckApple()) {
+		appleX = rand() % SLOUPCE - 2;
+		appleY = rand() % RADKY - 2;
 	}
 }
 
 int main() {
 	
+	char prezdivka[30];
+	
+
+
+	printf("--------HAD--------\n");
+	printf("Zadejte svoji prezdivku: \n");
+	printf(">");
+	scanf_s("%s",prezdivka,30);
+
 
 	srand(time(NULL));
 	hlava.posX = 10;
@@ -291,6 +313,7 @@ int main() {
 
 		if (b) {
 			generateApple();
+			score++;
 			b = 0;
 		}
 
@@ -303,8 +326,9 @@ int main() {
 		Sleep(200);
 
 	}
-	printf("GAMEOVER!");
-	
+	printf("GAMEOVER!\n\n\n");
+	printf("Vase skore bylo: %d\n\n\n", score);
 
+	
 	}
 	
