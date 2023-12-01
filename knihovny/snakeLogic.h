@@ -1,3 +1,10 @@
 #pragma once
-#include "../main.h"
 
+enum Direction {
+	UP = 1,
+	DOWN,
+	LEFT,
+	RIGHT
+};
+
+enum Direction getKey();

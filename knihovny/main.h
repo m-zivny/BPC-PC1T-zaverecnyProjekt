@@ -14,3 +14,11 @@ time_t cas;
 time_t timestamp;
 time_t rozdil;
 bool tempDirection;
+
+struct bodyPart {
+
+	int posX = 0;
+	int posY = 0;
+	bodyPart* next = NULL;
+
+};

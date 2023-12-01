@@ -16,12 +16,16 @@ souboru.
 Bonusový úkol: Implementujte možnost nahrání překážek do hracího pole z textového souboru.
 */
 
-char had = 'O';
+int startingPosX = 10;
+int startingPosY = 10;
 
-int hadPosX = 10;
-int hadPosY = 10;
 int ch;
+char had = 'O';
 enum Direction direction = RIGHT;
+struct bodyPart hlava;
+
+struct bodyPart* last = &hlava;
+
 
 void getDir() {
 
@@ -57,28 +61,28 @@ void getDir() {
 }
 void getPos() {
 	system("cls");
-	pole[hadPosY][hadPosX] = ' ';
+	//pole[hadPosY][hadPosX] = ' ';
 	switch (direction) {
 	case UP:
 
-		hadPosY--;
+//		hadPosY--;
 		break;
 
 	case DOWN:
-		hadPosY++;
+	//	hadPosY++;
 		break;
 
 	case LEFT:
-		hadPosX--;
+		//hadPosX--;
 		break;
 	case RIGHT:
-		hadPosX++;
+		//hadPosX++;
 		break;
 	default:
 		break;
 	}
 
-	pole[hadPosY][hadPosX] = had;
+//	pole[hadPosY][hadPosX] = had;
 }
 void tiskPole() {
 	for (int x = 0; x < RADKY; x++) {
@@ -90,6 +94,40 @@ void tiskPole() {
 		}
 		printf("\n");
 	}
+}
+
+void createPart() {
+
+	
+	struct bodyPart* newPart;
+
+	newPart = (struct bodyPart*)malloc(sizeof(struct bodyPart));
+
+	last->next = newPart;
+
+	switch (direction) {
+	case UP:
+		newPart->posY = last->posY + 1;
+		newPart->posX = last->posX;
+		break;
+	case DOWN:
+		newPart->posY = last->posY - 1;
+		newPart->posX = last->posX;
+		break;
+	case LEFT:
+		newPart->posY = last->posY;
+		newPart->posX = last->posX + 1;
+		break;
+	case RIGHT:
+		newPart->posY = last->posY;
+		newPart->posX = last->posX - 1;
+		break;
+	}
+
+	newPart->next = NULL;
+
+	last = newPart;
+
 }
 
 
@@ -123,9 +161,22 @@ void nasyceniPole() {
 	}
 }
 int main() {
-
+	
+	hlava.posX = 10;
+	hlava.posY = 10;
 	nasyceniPole();
-	pole[hadPosX][hadPosY] = had;
+
+	createPart();
+	createPart();
+	createPart();
+
+
+	tiskPole();
+	Sleep(150);
+
+	/*
+	nasyceniPole();
+//	pole[hadPosX][hadPosY] = had;
 	tiskPole();
 	Sleep(1000);
 	cas = time(NULL);
@@ -138,6 +189,6 @@ int main() {
 			tiskPole();
 			Sleep(150);
 		}
-
+		*/
 	}
 	
