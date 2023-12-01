@@ -18,6 +18,8 @@ Bonusový úkol: Implementujte možnost nahrání překážek do hracího pole z
 
 int startingPosX = 10;
 int startingPosY = 10;
+bool gameover = false;
+
 
 int ch;
 char had = 'O';
@@ -60,7 +62,7 @@ void getDir() {
 }
 void getPos() {
 
-	system("cls");
+
 
 	bodyPart* act = &hlava;
 	bodyPart* _tempLast;
@@ -81,6 +83,20 @@ void getPos() {
 		break;
 	}
 
+	act = act->next;
+	while (act) {
+
+		if (act->posX == hlava.posX && act->posY == hlava.posY) {
+			gameover = true;
+		}
+		act = act->next;
+
+	}
+	if (hlava.posX == 0 || hlava.posX == SLOUPCE - 1 || hlava.posY == RADKY - 1 || hlava.posY == 0) {
+		gameover = true;
+	}
+
+	act = &hlava;
 	_tempLast = act;
 	act = act->next;
 
@@ -151,6 +167,8 @@ void getPos() {
 		_tempLast = act;
 		act = act->next;
 	}
+
+	act = hlava.next;
 }
 void printField() {
 
@@ -248,14 +266,18 @@ int main() {
 
 	while (true) {
 
-		
+		system("cls");
 		fillGameField();
 		getDir();
 		getPos();
+		if (gameover) {
+			break;
+		}
 		printField();
-		Sleep(500);
+		Sleep(200);
 
 	}
+	printf("GAMEOVER!");
 	
 
 	}
