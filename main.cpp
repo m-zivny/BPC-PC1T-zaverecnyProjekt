@@ -271,16 +271,81 @@ void generateApple(){
 		appleY = rand() % RADKY - 2;
 	}
 }
+void statistics() {
+
+	file = fopen("zebricek.txt", "r"); //je ve stejné složce jako .exe soubor
+
+	if (file == NULL) {
+
+		file = fopen("zebricek.txt", "w");
+
+		strcpy(people[0].name, myName);
+		people[0].position = 1;
+		people[0].score = myScore;
+		fprintf(file, "%d. %s %d\n", people[0].position, people[0].name, people[0].score);
+
+		fclose(file);
+
+	}
+	else {
+		while (fgets(line, MAX_LENGTH, file) != NULL && count < MAX_PEOPLE) {
+			sscanf(line, "%d. %s %d", &people[count].position, people[count].name, &people[count].score);
+			count++;
+		}
+		fclose(file);
+
+		// Načtení a zpracování řádků souboru
+		if (count > 0) {
+
+	
+			for (int i = 0; i < count; i++) {
+				if (myScore > people[i].score) {
+					pos = i;
+					rewrite = true;
+					break;
+				}
+			}
+
+			if (rewrite) {
+					for (int i = (count - 1); i > pos; i--) {
+
+						strcpy(people[i].name, people[i - 1].name);
+
+						people[i].score = people[i - 1].score;
+					}
+					strcpy(people[pos].name, myName);
+
+					people[pos].score = myScore;
+			
+			}
+
+
+			file = fopen("zebricek.txt", "w");
+
+			for (int i = 0; i < count; i++) {
+				fprintf(file, "%d. %s %d\n", people[i].position, people[i].name, people[i].score);
+			}
+
+			fclose(file);
+		}
+		else {
+			strcpy(people[0].name, myName);
+			people[0].position = 1;
+			people[0].score = myScore;
+			fprintf(file, "%d. %s %d\n", people[0].position, people[0].name, people[0].score);
+			fclose(file);
+
+		}
+	}
+	
+}
 
 int main() {
 	
-	
-
-
 	printf("--------HAD--------\n");
 	printf("Zadejte svoji prezdivku (bez hacku,carek a mezer): \n");
 	printf(">");
-	scanf_s("%s",myNick,30);
+	scanf_s("%s",myName,30);
 
 
 	srand(time(NULL));
@@ -293,12 +358,13 @@ int main() {
 
 	/*while (true) {
 		
+		
 		system("cls");
 		fillGameField();
 
 		if (b) {
 			generateApple();
-			score++;
+			myScore++;
 			b = 0;
 		}
 
@@ -311,33 +377,11 @@ int main() {
 		Sleep(200);
 
 	}
+	*/
 	printf("GAMEOVER!\n\n\n");
-	printf("Vase skore bylo: %d\n\n\n", score);*/
+	printf("Vase skore bylo: %d\n\n\n", myScore);
+	statistics();
 
-	
-
-	file = fopen("zebricek.txt", "r");
-
-	if (file == NULL) {
-		printf("Soubor se nepodařilo otevřít.\n");
-		return 1;
-	}
-
-	// Načtení a zpracování řádků souboru
-	while (fgets(line, MAX_LENGTH, file) != NULL && count < MAX_PEOPLE) {
-		sscanf(line, "%d. %s %d", &people[count].position, people[count].name, &people[count].points);
-		count++;
-	}
-	fclose(file);
-
-
-/*	fopen("zebricek.txt", "w");
-
-	fprintf(file, "%d. %s %d", 1, "pepe", 26);
-
-	fclose(file);
-
-*/
 	return 0;
 	}
 	

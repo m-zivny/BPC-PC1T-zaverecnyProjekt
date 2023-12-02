@@ -27,7 +27,7 @@ struct Person {
 
 	int position;
 	char name[50];
-	int points;
+	int score;
 };
 
 enum Direction {
@@ -53,8 +53,8 @@ enum Direction direction = RIGHT;
 struct bodyPart hlava;
 struct bodyPart* last = &hlava;
 int b = 0;
-char myNick[30];
-int myScore = 0;
+char myName[30];
+int myScore = 1;
 
 char pole[RADKY][SLOUPCE];
 
