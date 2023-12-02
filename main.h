@@ -6,13 +6,14 @@
 #include <stdlib.h>
 #include <time.h>
 #include <direct.h>
+#include <string.h>
 
 
 #define RADKY 16
 #define SLOUPCE 32
-char pole[RADKY][SLOUPCE];
 
-
+#define MAX_LENGTH 10000 // Maximální délka naèítaného øetìzce
+#define MAX_PEOPLE 10   // Maximální poèet osob
 
 struct bodyPart {
 
@@ -22,9 +23,48 @@ struct bodyPart {
 
 };
 
+struct Person {
+
+	int position;
+	char name[50];
+	int points;
+};
+
 enum Direction {
 	UP = 1,
 	DOWN,
 	LEFT,
 	RIGHT
 };
+
+
+int startingPosX = 5;
+int startingPosY = 5;
+int appleX = 0;
+int appleY = 0;
+bool gameover = false;
+
+
+
+int ch;
+char had = 'O';
+char apple = 'X';
+enum Direction direction = RIGHT;
+struct bodyPart hlava;
+struct bodyPart* last = &hlava;
+int b = 0;
+char myNick[30];
+int myScore = 0;
+
+char pole[RADKY][SLOUPCE];
+
+FILE* file;
+char line[MAX_LENGTH];
+struct Person people[MAX_PEOPLE];
+int count = 0;
+bool rewrite = false;
+int pos = 0;
+
+
+
+

@@ -13,22 +13,8 @@ souboru.
 
 */
 
-int startingPosX = 5;
-int startingPosY = 5;
-int appleX = 0;
-int appleY = 0;
-bool gameover = false;
 
 
-
-int ch;
-char had = 'O';
-char apple = 'X';
-enum Direction direction = RIGHT;
-struct bodyPart hlava;
-struct bodyPart* last = &hlava;
-int b = 0;
-int score = 0;
 
 void createPart() {
 
@@ -232,7 +218,7 @@ void printField() {
 
 	}
 
-	printf("SCORE: %d", score);
+	printf("SCORE: %d", myScore);
 }
 
 void fillGameField() {
@@ -288,14 +274,13 @@ void generateApple(){
 
 int main() {
 	
-	char prezdivka[30];
 	
 
 
 	printf("--------HAD--------\n");
-	printf("Zadejte svoji prezdivku: \n");
+	printf("Zadejte svoji prezdivku (bez hacku,carek a mezer): \n");
 	printf(">");
-	scanf_s("%s",prezdivka,30);
+	scanf_s("%s",myNick,30);
 
 
 	srand(time(NULL));
@@ -306,8 +291,8 @@ int main() {
 	createPart();
 	
 
-	while (true) {
-
+	/*while (true) {
+		
 		system("cls");
 		fillGameField();
 
@@ -327,36 +312,32 @@ int main() {
 
 	}
 	printf("GAMEOVER!\n\n\n");
-	printf("Vase skore bylo: %d\n\n\n", score);
-/*
-	const char* filename = "C:\\Users\\marti\\Documents\\!ŠKOLA\\BPC-PC1T-zaverecnyProjekt\\readme.txt";
+	printf("Vase skore bylo: %d\n\n\n", score);*/
 
-	FILE* fp = fopen(filename, "r");
+	
 
-	if (fp == NULL)
-	{
-		printf("Error: could not open file %s", filename);
+	file = fopen("zebricek.txt", "r");
+
+	if (file == NULL) {
+		printf("Soubor se nepodařilo otevřít.\n");
 		return 1;
 	}
 
-	// read one character at a time and
-	// display it to the output
-	char ch;
-	ch = fgetc(fp);
-
-	while (ch != EOF) {
-		if (ch != ';') {
-			putchar(ch);
-		}
-	ch = fgetc(fp);
+	// Načtení a zpracování řádků souboru
+	while (fgets(line, MAX_LENGTH, file) != NULL && count < MAX_PEOPLE) {
+		sscanf(line, "%d. %s %d", &people[count].position, people[count].name, &people[count].points);
+		count++;
 	}
-		
+	fclose(file);
 
-	// close the file
-	fclose(fp);
 
+/*	fopen("zebricek.txt", "w");
+
+	fprintf(file, "%d. %s %d", 1, "pepe", 26);
+
+	fclose(file);
+
+*/
 	return 0;
-
-	*/
 	}
 	
