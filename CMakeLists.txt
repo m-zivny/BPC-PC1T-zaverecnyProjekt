@@ -12,10 +12,10 @@ endif()
 project ("snake")
 
 # Přidejte zdrojový kód ke spustitelnému souboru tohoto projektu.
-add_executable (BPC-PC1T-zaverecnyProjektd "main.cpp"    "main.h")
+add_executable (snake "main.cpp"    "main.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET BPC-PC1T-zaverecnyProjektd PROPERTY CXX_STANDARD 20)
+  set_property(TARGET snake PROPERTY CXX_STANDARD 20)
 endif()
 
 # TODO: V případě potřeby přidejte testy a cíle instalace.

@@ -47,6 +47,7 @@ bool gameover = false;
 
 
 int ch;
+char restartVal[1];
 char had = 'O';
 char apple = 'X';
 enum Direction direction = RIGHT;
@@ -54,7 +55,7 @@ struct bodyPart hlava;
 struct bodyPart* last = &hlava;
 int b = 0;
 char myName[30];
-int myScore = 1;
+int myScore = 0;
 
 char pole[RADKY][SLOUPCE];
 
@@ -63,6 +64,7 @@ char line[MAX_LENGTH];
 struct Person people[MAX_PEOPLE];
 int count = 0;
 bool rewrite = false;
+bool isBetter = false;
 int pos = 0;
 
 

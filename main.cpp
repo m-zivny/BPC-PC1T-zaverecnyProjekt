@@ -290,45 +290,71 @@ void statistics() {
 	else {
 		while (fgets(line, MAX_LENGTH, file) != NULL && count < MAX_PEOPLE) {
 			sscanf(line, "%d. %s %d", &people[count].position, people[count].name, &people[count].score);
-			count++;
+
+			if (people[count].position != 0) {
+				count++;
+			}
+			else {
+				break;
+			}
+			
 		}
 		fclose(file);
 
 		// Načtení a zpracování řádků souboru
 		if (count > 0) {
 
-	
-			for (int i = 0; i < count; i++) {
-				if (myScore > people[i].score) {
-					pos = i;
-					rewrite = true;
-					break;
-				}
-			}
+				for (int i = 0; i < count; i++) {
 
-			if (rewrite) {
-					for (int i = (count - 1); i > pos; i--) {
-
-						strcpy(people[i].name, people[i - 1].name);
-
-						people[i].score = people[i - 1].score;
+					if (myScore >= people[i].score) {						
+						isBetter = true;
+						pos = i;
+						break;
 					}
+
+				}
+
+				
+
+				if (!isBetter && count < 10) {
+
+					pos = count;
 					strcpy(people[pos].name, myName);
-
 					people[pos].score = myScore;
-			
-			}
+					people[pos].position = count+1;
 
+				}
+				else if (isBetter) {
+					for (int i = 9; i > pos; i--) {
+
+						if (people[i - 1].position != 0) {
+							strcpy(people[i].name, people[i - 1].name);
+							people[i].score = people[i - 1].score;
+							people[i].position = i + 1;
+						}
+
+
+					}
+
+					strcpy(people[pos].name, myName);
+					people[pos].score = myScore;
+				}
 
 			file = fopen("zebricek.txt", "w");
 
-			for (int i = 0; i < count; i++) {
-				fprintf(file, "%d. %s %d\n", people[i].position, people[i].name, people[i].score);
+			for (int i = 0; i < 10; i++) {
+
+				if (people[i].position != 0) {
+					fprintf(file, "%d. %s %d\n", people[i].position, people[i].name, people[i].score);
+				}
+				
 			}
 
 			fclose(file);
 		}
 		else {
+
+			file = fopen("zebricek.txt", "w");
 			strcpy(people[0].name, myName);
 			people[0].position = 1;
 			people[0].score = myScore;
@@ -340,13 +366,13 @@ void statistics() {
 	
 }
 
+
 int main() {
 	
 	printf("--------HAD--------\n");
 	printf("Zadejte svoji prezdivku (bez hacku,carek a mezer): \n");
 	printf(">");
 	scanf_s("%s",myName,30);
-
 
 	srand(time(NULL));
 	hlava.posX = 10;
@@ -355,8 +381,8 @@ int main() {
 	createPart();
 	createPart();
 	
-
-	/*while (true) {
+	
+	while (true) {
 		
 		
 		system("cls");
@@ -377,11 +403,13 @@ int main() {
 		Sleep(200);
 
 	}
-	*/
+	
 	printf("GAMEOVER!\n\n\n");
 	printf("Vase skore bylo: %d\n\n\n", myScore);
 	statistics();
 
+	printf("Pro restart hry ji vypnete a zapnete :-)\n");
 	return 0;
+
 	}
 	
