@@ -12,3 +12,4 @@ Martin Zivny, Michal Sabik
 - Had zemre pokud narazi sam do sebe nebo do hranic pole
 - Po ukonceni hry se vysledky ulozi (pokud je zebricek plny a uzivatel udelal horsi vysledek nez hraci v zebricku tak se neulozi)
 - Program se nasledne ukonci cely
+- Zebricek hracu se generuje do souboru - ve stejne slozce kde najdeme soubor snake.exe - zebricek.txt
